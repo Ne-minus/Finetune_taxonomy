@@ -1,0 +1,53 @@
+model:
+  model_name_or_path: "Qwen/Qwen2.5-7B-Instruct"
+  tokenizer_name: null
+  cache_dir: "/mnt/storage/neminova"
+  trust_remote_code: true
+  use_fast_tokenizer: true
+  torch_dtype: "bfloat16"
+
+data:
+  dataset_name: "/mnt/storage/neminova/data/train_set_1"
+  block_size: 1024
+  validation_split_percentage: 0
+  dataset_percentage: 100
+  seed: 42
+  streaming: false
+  overwrite_cache: false
+  preprocessing_num_workers: 4
+  load_from_disk: true
+
+training:
+  output_dir: "/mnt/storage/neminova/qwen" # STaR overwrites it
+  learning_rate: 7.0e-6
+  num_train_epochs: 1
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 4
+  gradient_checkpointing: false
+  max_steps: -1
+  save_strategy: "no"
+  save_steps: 1
+  evaluation_strategy: "no"
+  eval_steps: 1
+  weight_decay: 0.1
+  warmup_ratio: 0.03
+  lr_scheduler_type: "cosine"
+  logging_steps: 10
+  do_train: true
+  do_eval: false
+  report_to: ["wandb"]
+  run_name: "ft_qwen"
+  project_name: "FINEtune"
+
+peft:
+  use_lora: true
+  lora_rank: 8
+  lora_alpha: 16
+  lora_dropout: 0.1
+  lora_target_modules:
+    - "q_proj"
+    - "v_proj"
+    - "k_proj"
+  dora: false
+
