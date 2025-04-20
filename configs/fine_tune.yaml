@@ -49,5 +49,6 @@ peft:
     - "q_proj"
     - "v_proj"
     - "k_proj"
+    - "o_proj"
   dora: false
 
